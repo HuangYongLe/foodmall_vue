@@ -34,7 +34,9 @@ export default {
   methods: {
     ...mapMutations(['changeClickMenuIndex']),
     _initScroll () {
-      this.menuScroll = new BScroll(this.$refs.menuWrapper, {})
+      this.menuScroll = new BScroll(this.$refs.menuWrapper, {
+        click: true
+      })
     },
     handleSelectMenu (index) {
       this.changeClickMenuIndex(index)
