@@ -2,7 +2,10 @@
   <div id="app">
     <app-header :seller="seller"></app-header>
     <app-tab></app-tab>
-    <router-view/>
+    <router-view
+      :seller="seller"
+      :goods="goods"
+    />
   </div>
 </template>
 
@@ -14,7 +17,8 @@ export default {
   name: 'App',
   data () {
     return {
-      seller: {}
+      seller: {},
+      goods: []
     }
   },
   components: {
@@ -30,6 +34,7 @@ export default {
       if (res.ret && res.data) {
         const data = res.data
         this.seller = data.seller
+        this.goods = data.goods
       }
     }
   },
