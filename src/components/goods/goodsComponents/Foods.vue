@@ -17,6 +17,9 @@
               <div class="price">
                 <span class="now">{{food.price | currency('￥', 0)}}</span><span class="old" v-show="food.oldPrice">{{food.oldPrice | currency('￥', 0)}}</span>
               </div>
+              <div class="cartcontrol-wrapper">
+                <cart-control :food="food" @dropAdd="_drop"></cart-control>
+              </div>
             </div>
           </li>
         </ul>
@@ -28,6 +31,7 @@
 <script>
 import BScroll from 'better-scroll'
 import { mapState, mapMutations } from 'vuex'
+import CartControl from '@/components/cartcontrol/CartControl'
 export default {
   name: 'GoodsFoods',
   props: {
@@ -39,8 +43,11 @@ export default {
       scrollY: 0
     }
   },
+  components: {
+    CartControl
+  },
   computed: {
-    ...mapState(['clickMenuIndex']),
+    ...mapState(['clickMenuIndex', 'balls', 'dropBalls']),
     currentIndex () {
       for (let i = 0; i < this.listHeight.length; i++) {
         let height1 = this.listHeight[i]
@@ -62,9 +69,21 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['changeCurrentIndex']),
+    ...mapMutations(['changeCurrentIndex', 'changeDropBalls']),
+    _drop (addEl) {
+      for (let i = 0; i < this.balls.length; i++) {
+        let ball = this.balls[i]
+        if (!ball.show) {
+          ball.show = true
+          ball.addEl = addEl
+          this.changeDropBalls(ball)
+          return
+        }
+      }
+    },
     _initScroll () {
       this.foodsScroll = new BScroll(this.$refs.foodsWrapper, {
+        click: true,
         probeType: 3
       })
       this.foodsScroll.on('scroll', (pos) => {
@@ -146,4 +165,8 @@ export default {
             text-decoration line-through
             font-size 10px
             color rgb(147, 153, 159)
+        .cartcontrol-wrapper
+          position absolute
+          right 0
+          bottom 12px
 </style>

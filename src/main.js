@@ -8,7 +8,7 @@ import store from './store'
 import 'styles/reset.css'
 import 'styles/iconfont.css'
 import 'styles/index.styl'
-import {currency} from './util/currency.js'
+import {currency} from './util/currency'
 
 Vue.config.productionTip = false
 fastclick.attach(document.body)

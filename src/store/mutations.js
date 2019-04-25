@@ -7,5 +7,14 @@ export default {
   },
   changeClickMenuIndex (state, clickMenuIndex) {
     state.clickMenuIndex = clickMenuIndex
+  },
+  changeDropBalls (state, ball) {
+    state.dropBalls.push(ball)
+  },
+  shiftDropBall (state) {
+    state.shiftBall = state.dropBalls.shift()
+  },
+  shiftDropBallShow (state) {
+    state.shiftBall.show = false
   }
 }
