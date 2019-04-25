@@ -16,25 +16,12 @@
           {{payDesc}}
         </div>
       </div>
-        <div class="ball-container">
-          <transition-group
-            name="drop"
-            v-on:before-enter="beforeEnter"
-            v-on:enter="enter"
-            v-on:after-enter="afterEnter"
-          >
-            <div class="ball" v-for="(ball, index) in balls" v-show="ball.show" :key="index+1">
-              <div class="inner inner-hook"></div>
-            </div>
-          </transition-group>
-      </div>
     </div>
   </div>
 </template>
 
 <script>
 import {currency} from '@/util/currency'
-import { mapState, mapMutations } from 'vuex'
 export default {
   name: 'Shopcart',
   props: {
@@ -54,7 +41,6 @@ export default {
     }
   },
   computed: {
-    ...mapState(['balls', 'dropBalls', 'shiftBall']),
     totalPrice () {
       let total = 0
       this.selectFoods.forEach((food) => {
@@ -84,45 +70,6 @@ export default {
         return 'not-enough'
       } else {
         return 'enough'
-      }
-    }
-  },
-  methods: {
-    ...mapMutations(['changeDropBalls', 'shiftDropBall', 'shiftDropBallShow']),
-    beforeEnter (el) {
-      let count = this.balls.length
-      while (count--) {
-        let ball = this.balls[count]
-        if (ball.show) {
-          let rect = ball.addEl.getBoundingClientRect()
-          let x = rect.left - 32
-          let y = -(window.innerHeight - rect.top - 22)
-          el.style.display = ''
-          el.style.webkitTransform = `translate3d(0, ${y}px, 0)`
-          el.style.transform = `translate3d(0, ${y}px, 0)`
-          let inner = el.querySelector('.inner-hook')
-          inner.style.webkitTransform = `translate3d(${x}px, 0, 0)`
-          inner.style.transform = `translate3d(${x}px, 0, 0)`
-        }
-      }
-    },
-    enter (el) {
-      /* eslint-disable no-unused-vars */
-      let rf = el.offsetHeight
-      this.$nextTick(() => {
-        el.style.webkitTransform = 'translate3d(0, 0, 0)'
-        el.style.transform = 'translate3d(0, 0, 0)'
-        let inner = el.querySelector('.inner-hook')
-        inner.style.webkitTransform = 'translate3d(0, 0, 0)'
-        inner.style.transform = 'translate3d(0, 0, 0)'
-      })
-    },
-    afterEnter (el) {
-      this.shiftDropBall()
-      this.changeDropBalls()
-      if (this.shiftBall) {
-        this.shiftDropBallShow()
-        el.style.display = 'none'
       }
     }
   }
@@ -217,19 +164,4 @@ export default {
           &.enough
             background #00b43c
             color #fff
-      .ball-container
-        .ball
-          position fixed
-          left 32px
-          bottom 22px
-          z-index 200
-          display none
-          .inner
-            width 16px
-            height 16px
-            border-radius 50%
-            background rgb(0, 160, 220)
-            transition all .4s linear
-  .drop-enter-active, .drop-leave-active
-    transition all .4s cubic-bezier(0.49, -0.29, 0.75, 0.41)
 </style>

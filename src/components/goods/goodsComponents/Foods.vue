@@ -18,7 +18,7 @@
                 <span class="now">{{food.price | currency('￥', 0)}}</span><span class="old" v-show="food.oldPrice">{{food.oldPrice | currency('￥', 0)}}</span>
               </div>
               <div class="cartcontrol-wrapper">
-                <cart-control :food="food" @dropAdd="_drop"></cart-control>
+                <cart-control :food="food"></cart-control>
               </div>
             </div>
           </li>
@@ -47,7 +47,7 @@ export default {
     CartControl
   },
   computed: {
-    ...mapState(['clickMenuIndex', 'balls', 'dropBalls']),
+    ...mapState(['clickMenuIndex']),
     currentIndex () {
       for (let i = 0; i < this.listHeight.length; i++) {
         let height1 = this.listHeight[i]
@@ -69,18 +69,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['changeCurrentIndex', 'changeDropBalls']),
-    _drop (addEl) {
-      for (let i = 0; i < this.balls.length; i++) {
-        let ball = this.balls[i]
-        if (!ball.show) {
-          ball.show = true
-          ball.addEl = addEl
-          this.changeDropBalls(ball)
-          return
-        }
-      }
-    },
+    ...mapMutations(['changeCurrentIndex']),
     _initScroll () {
       this.foodsScroll = new BScroll(this.$refs.foodsWrapper, {
         click: true,
