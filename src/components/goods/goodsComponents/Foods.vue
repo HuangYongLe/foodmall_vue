@@ -4,7 +4,12 @@
       <li class="food-list food-list-hook" v-for="(item, index) in goods" :key="index">
         <h1 class="title">{{item.name}}</h1>
         <ul>
-          <li class="food-item border-1px" v-for="(food, index) in item.foods" :key="index">
+          <li
+            class="food-item border-1px"
+            v-for="(food, index) in item.foods"
+            :key="index"
+            @click="selectedFood(food, $event)"
+          >
             <div class="icon">
               <img class="icon-img" :src="food.icon">
             </div>
@@ -25,6 +30,7 @@
         </ul>
       </li>
     </ul>
+    <food-info :food="selectFood" ref="food"></food-info>
   </div>
 </template>
 
@@ -32,6 +38,7 @@
 import BScroll from 'better-scroll'
 import { mapState, mapMutations } from 'vuex'
 import CartControl from '@/components/cartcontrol/CartControl'
+import FoodInfo from './food/Food'
 export default {
   name: 'GoodsFoods',
   props: {
@@ -40,11 +47,13 @@ export default {
   data () {
     return {
       listHeight: [],
-      scrollY: 0
+      scrollY: 0,
+      selectFood: {}
     }
   },
   components: {
-    CartControl
+    CartControl,
+    FoodInfo
   },
   computed: {
     ...mapState(['clickMenuIndex']),
@@ -88,6 +97,10 @@ export default {
         height += item.clientHeight
         this.listHeight.push(height)
       }
+    },
+    selectedFood (food, event) {
+      this.selectFood = food
+      this.$refs.food.show()
     }
   },
   mounted () {

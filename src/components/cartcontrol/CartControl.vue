@@ -1,12 +1,12 @@
 <template>
   <div class="cartcontrol">
     <move-animation>
-      <div class="cart-decrease" v-show="food.count > 0" @click="handleDecreaseCart">
+      <div class="cart-decrease" v-show="food.count > 0" @click.stop.prevent="handleDecreaseCart">
         <span class="iconfont decrease-icon">&#xe610;</span>
       </div>
     </move-animation>
     <div class="cart-count" v-show="food.count > 0">{{food.count}}</div>
-    <div class="iconfont cart-add" @click="handleAddCart">&#xe6f1;</div>
+    <div class="iconfont cart-add" @click.stop.prevent="handleAddCart">&#xe6f1;</div>
   </div>
 </template>
 
@@ -22,7 +22,7 @@ export default {
     MoveAnimation
   },
   methods: {
-    handleAddCart (e) {
+    handleAddCart () {
       if (!this.food.count) {
         Vue.set(this.food, 'count', 1)
       } else {
