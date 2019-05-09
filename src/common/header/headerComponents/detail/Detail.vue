@@ -1,6 +1,6 @@
 <template>
   <fade-animation>
-    <div class="detail" v-show="detailShow">
+    <div class="detail" v-show="detailShow" @click="closeDetail">
       <div class="detail-wrapper clearfix">
         <div class="detail-main">
           <h1 class="name">{{seller.name}}</h1>
@@ -24,7 +24,7 @@
           </div>
         </div>
       </div>
-      <div class="detail-close"  @click="closeDetail">
+      <div class="detail-close" @click="closeDetail">
         <span class="iconfont close-icon">&#xe615;</span>
       </div>
     </div>
